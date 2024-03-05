@@ -1,27 +1,43 @@
-parentContext
+import React, { useContext, useEffect, useState } from 'react';
+import { ToggleTheme } from '../App';
 
+export default function UseContext() {
+    const theme = useContext(ToggleTheme);
+    const [like, setLike] = useState(0);
+    const [content, setContent] = useState(false);
+    const [firstRender, setFirstRender] = useState(true);
 
-import React, { createContext, useState } from 'react'
+    const themeStyle = {
+        backgroundColor: theme ? "black" : "grey",
+        color: theme ? "grey" : "black",
+        padding: "2rem",
+        margin: "2rem"
+    };
 
-export const AppContext = createContext()
+    const increase = () => {
+        setLike((prev) => prev + 1);
+    };
 
-const ParentContext = ({children}) => {
+    useEffect(() => {
+        if (firstRender) {
+            setFirstRender(false);
+        } else {
+            alert("Content Button is Clicked");
+            const contentElement = document.getElementById("content");
+            if (contentElement) {
+                contentElement.classList.toggle("hidden");
+            }
+        }
+    }, [content]);
 
-  const [mainCount,setMainCount] = useState(50000)
-
-  const decreaseCount =()=>{
-    setMainCount(mainCount-1000)
-  }
-
-  const increaseCount = ()=>{
-    setMainCount(mainCount+1000)
-  }
-
-  const [isDark,setIsDark] = useState(true)
-
-  return <AppContext.Provider value={{mainCount,setMainCount,decreaseCount,increaseCount,isDark,setIsDark}}>
-          {children}
-  </AppContext.Provider>
+    return (
+        <div style={themeStyle}>
+            <button onClick={() => setContent(!content)}>Content</button>
+            <h3 id='content' className={content ? '' : 'hidden'}>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam molestias at et labore eos. Molestias consequatur eum atque deleniti beatae, placeat nesciunt distinctio eius laudantium ut tempora minus unde officia!
+            </h3>
+            <h2>{like}</h2>
+            <button onClick={increase}>Like</button>
+        </div>
+    );
 }
-
-export default ParentContext
