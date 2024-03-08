@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { ToggleTheme } from '../App';
+import React, { useEffect, useState } from 'react'
 
 export default function UseContext() {
-    const theme = useContext(ToggleTheme);
+    const [theme,setTheme] = useState(false);
     const [like, setLike] = useState(0);
     const [content, setContent] = useState(false);
     const [firstRender, setFirstRender] = useState(true);
@@ -32,6 +31,9 @@ export default function UseContext() {
 
     return (
         <div style={themeStyle}>
+            <button onClick={() => {
+                setTheme(!theme)
+            }} style={{marginRight: "10vh"}}>Toggle</button>
             <button onClick={() => setContent(!content)}>Content</button>
             <h3 id='content' className={content ? '' : 'hidden'}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam molestias at et labore eos. Molestias consequatur eum atque deleniti beatae, placeat nesciunt distinctio eius laudantium ut tempora minus unde officia!
